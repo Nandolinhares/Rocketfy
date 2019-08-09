@@ -3,23 +3,29 @@ import React from 'react';
 import { MdAdd } from 'react-icons/md';
 import Card from '../Card';
 import { Container } from './styles';
+import { testNameToKey } from 'jest-snapshot/build/utils';
 
-export default function List() {
+export default function List({ data, index: listIndex }) {
     return(
-        <Container>
+        <Container done={data.done}>
             <header>
-                <h2>Tarefas</h2>
-                <button type="button">
-                    <MdAdd size={24} color={"#fff"} />
-                </button>
+                <h2>{data.title}</h2>
+                {data.creatable && (
+                    <button type="button">
+                      <MdAdd size={24} color={"#fff"} />
+                    </button>
+                )}
             </header>
 
             <ul>
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                {data.cards.map((card, index) => (
+                    <Card
+                        key={card.id}
+                        listIndex={listIndex}
+                        index={index} 
+                        data={card} 
+                    />
+                    ))}
             </ul>
         </Container>
     );
